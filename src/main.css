@@ -1,0 +1,41 @@
+*
+{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html
+{
+    font-family:Verdana, Geneva, Tahoma, sans-serif;
+    font-size: 14px;
+}
+
+body
+{
+    display: grid;
+    grid-template-rows: 100vh;
+    grid-template-columns: minmax(250px, 20vw) minmax(250px, auto) auto;
+    background-color: rgb(219, 235, 243);
+}
+
+div
+{
+    color: rgb(48, 48, 48);
+    font-size: 1rem;
+}
+
+.sidebar-view-container
+{
+    background-color: aliceblue;
+}
+
+.project-view-container
+{
+    background-color: white;
+    box-shadow: 8px 3px 16px -10px rgba(0,0,0,0.46);
+}
+
+.todo-view-container
+{
+}

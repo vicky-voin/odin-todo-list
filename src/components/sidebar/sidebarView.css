@@ -1,0 +1,98 @@
+.sidebar
+{
+    display: grid;
+    grid-auto-flow: row;
+}
+
+.logo-root
+{
+    padding: 24px 12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.logo
+{
+    width:35px;
+    height: 35px;
+    filter: invert(32%) sepia(86%) saturate(3531%) hue-rotate(201deg) 
+    brightness(101%) contrast(109%);
+    opacity: 0.5;
+}
+
+.logo-text
+{
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: rgb(73, 92, 109);
+}
+
+.projects-root
+{
+    padding-top: 24px;
+    display: flex;
+    flex-direction: column;
+}
+
+.projects-title
+{
+    font-size: 1.4rem;
+    font-weight: 600;
+    color: black;
+    margin-bottom: 12px;
+    margin-left: 24px;
+}
+
+.project-item
+{
+    display: flex;
+    align-items: center;
+    flex-grow: 1;
+    gap: 12px;
+    border: 0px;
+    background-color: transparent;
+    padding: 8px 24px;
+}
+
+.project-item:hover
+{
+    background-color: rgb(211, 219, 226);
+}
+
+.project-item-name
+{
+    font-size: 1.1rem;
+}
+
+.badge
+{
+    width: 24px;
+    height: 24px;
+    padding: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+.badge::before
+{
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: url("../../img/circle.svg");
+    filter: invert(40%) sepia(86%) saturate(3263%) hue-rotate(187deg) brightness(98%) contrast(102%);
+}
+
+.badge-value
+{
+    color: white;
+    font-weight: 1000;
+    font-size: 0.8rem;
+    position: relative;
+    z-index: 1;
+}

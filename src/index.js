@@ -1,6 +1,8 @@
 import {ToDo, Priority, createDefaultTasks} from "./todo"
 import {Project, createDefaultProject} from "./project"
 import {Library} from "./library"
+import "./main.css"
+import {SidebarView} from "./components/sidebar/sidebarView"
 
 const defaultProject = createDefaultProject();
 createDefaultTasks().forEach(todo => {
@@ -30,3 +32,7 @@ console.log(myProject.getToDos());
 
 myLibrary.moveToDoFromTo(defaultProject.getToDos()[0], 1);
 console.log(myLibrary);
+
+const sidebarRoot = document.querySelector(".sidebar-nav");
+const sidebarView = new SidebarView();
+//sidebarRoot.innerHTML = sidebarView.getHtml();
