@@ -23,6 +23,7 @@ export const Priority = {
 export class ToDo
 {
     #id = crypto.randomUUID();
+    #projectId = '';
     #title;
     #description = '';
     #priority = Priority.MEDIUM;
@@ -35,8 +36,16 @@ export class ToDo
         console.log(`ToDo created, Title: ${this.#title}, ID: ${this.#id}`);
     }
 
-    get Id() {
+    get id() {
         return this.#id;
+    }
+
+    get projectId() {
+        return this.#projectId;
+    }
+
+    set projectId(value) {
+        this.#projectId = value;
     }
 
     get title() {
@@ -92,3 +101,14 @@ export class ToDo
         this.#isComplete = isComplete;
     }
 }
+
+function createDefaultTasks()
+{
+    return [
+        new ToDo("Do 30 minutes of exercie"),
+        new ToDo("Buy milk"),
+        new ToDo("Schedule a dentist appointment")
+    ]
+}
+
+export {createDefaultTasks}

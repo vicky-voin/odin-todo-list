@@ -1,5 +1,14 @@
-import {ToDo, Priority} from "./todo"
-import {Project} from "./project"
+import {ToDo, Priority, createDefaultTasks} from "./todo"
+import {Project, createDefaultProject} from "./project"
+import {Library} from "./library"
+
+const defaultProject = createDefaultProject();
+createDefaultTasks().forEach(todo => {
+    defaultProject.addToDo(todo);
+});
+
+const myLibrary = new Library(defaultProject);
+console.log(myLibrary);
 
 const testToDo = new ToDo("Test Name");
 testToDo.description = "Test Description";
@@ -12,9 +21,12 @@ step1.setIsComplete(true);
 
 console.log(testToDo);
 
-const myProject = new Project("My Project");
+const myProject = new Project("My Project", myLibrary);
 myProject.addToDo(testToDo);
 myProject.addToDo(testToDo);
 console.log(myProject);
 myProject.deleteToDo(0);
 console.log(myProject.getToDos());
+
+myLibrary.moveToDoFromTo(defaultProject.getToDos()[0], 1);
+console.log(myLibrary);
