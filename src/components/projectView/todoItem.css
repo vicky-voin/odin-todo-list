@@ -1,0 +1,19 @@
+.todo-item-button
+{
+    background-color: white;
+    border: 0px;
+    display: flex;
+    gap: 12px;
+    padding: 12px;
+    border-top: 1px solid rgb(223, 223, 223);
+}
+
+.todo-item-button:hover
+{
+    background-color: rgb(211, 219, 226);
+}
+
+.todo-item-button:last-of-type
+{
+    border-bottom: 1px solid rgb(223, 223, 223);
+}

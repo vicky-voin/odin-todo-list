@@ -84,7 +84,7 @@
     left: 0;
     right: 0;
     bottom: 0;
-    background-image: url("../../img/circle.svg");
+    background-image: url("../img/circle.svg");
     filter: invert(40%) sepia(86%) saturate(3263%) hue-rotate(187deg) brightness(98%) contrast(102%);
 }
 

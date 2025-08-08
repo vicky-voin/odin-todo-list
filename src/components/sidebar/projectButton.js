@@ -1,6 +1,11 @@
+import EventEmitter from "events";
+
 export class ProjectButton
 {
-    #button;
+    #badgeValue;
+
+    #domRoot;
+    get domObject() {return this.#domRoot};
 
     constructor(project, document)
     {
@@ -14,16 +19,23 @@ export class ProjectButton
         const badge = document.createElement('div');
         badge.className = "badge";
 
-        const badgeValue = document.createElement('div');
-        badgeValue.className = "badge-value";
-        badgeValue.textContent = project.getToDos().length;
+        this.#badgeValue = document.createElement('div');
+        this.#badgeValue.className = "badge-value";
+        this.#badgeValue.textContent = project.getToDos().length;
 
-        badge.appendChild(badgeValue);
+        badge.appendChild(this.#badgeValue);
         button.appendChild(title);
         button.appendChild(badge);
 
-        this.#button = button;
+        this.#domRoot = button;
 
-        return button;
+        this.eventEmitter = new EventEmitter();
+        button.addEventListener('click', () => {this.eventEmitter.emit('click')})
+        project.eventEmitter.on('sizeChanged', (count) => this.updateBadge(count));
+    }
+
+    updateBadge(count)
+    {
+        this.#badgeValue.textContent = count;
     }
 }

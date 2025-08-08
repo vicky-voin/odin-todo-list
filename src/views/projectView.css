@@ -1,0 +1,11 @@
+.project-view
+{
+    padding: 48px 24px;
+}
+
+.todos-list
+{
+    display: flex;
+    flex-direction: column;
+    margin-top: 12px;
+}

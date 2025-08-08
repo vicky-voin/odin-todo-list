@@ -2,7 +2,8 @@ import {ToDo, Priority, createDefaultTasks} from "./todo"
 import {Project, createDefaultProject} from "./project"
 import {Library} from "./library"
 import "./main.css"
-import {SidebarView} from "./components/sidebar/sidebarView"
+import {SidebarView} from "./views/sidebarView"
+import { ProjectView } from "./views/projectView"
 
 const defaultProject = createDefaultProject();
 createDefaultTasks().forEach(todo => {
@@ -35,4 +36,12 @@ console.log(myLibrary);
 
 const sidebarRoot = document.querySelector(".sidebar-view-container");
 const sidebarView = new SidebarView(myLibrary, document);
-sidebarRoot.appendChild(sidebarView);
+sidebarView.eventEmitter.on('projectSelected', (project) => 
+{
+    projectView.show(project, document);
+});
+sidebarRoot.appendChild(sidebarView.domObject);
+
+const projectViewRoot = document.querySelector(".project-view-container");
+const projectView = new ProjectView(defaultProject, document);
+projectViewRoot.appendChild(projectView.domObject);

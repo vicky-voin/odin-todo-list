@@ -1,3 +1,5 @@
+var EventEmitter = require("events");
+
 export class Project
 {
     #id = crypto.randomUUID();
@@ -7,6 +9,8 @@ export class Project
     constructor(title, library)
     {
         this.#title = title;
+
+        this.eventEmitter = new EventEmitter();
 
         if(library)
             library.addProject(this);
@@ -24,11 +28,15 @@ export class Project
     {
         this.#toDos.push(todo);
         todo.projectId = this.#id;
+
+        this.eventEmitter.emit('sizeChanged', this.#toDos.length);
     }
 
     deleteToDo(index)
     {
         this.#toDos.splice(index,1);
+
+        this.eventEmitter.emit('sizeChanged', this.#toDos.length);
     }
 
     getToDos()
