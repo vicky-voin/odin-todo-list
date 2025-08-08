@@ -26,4 +26,9 @@ export class Library
 
         this.#projects[toProjectIndex].addToDo(todo);
     }
+
+    getProjects()
+    {
+        return this.#projects;
+    }
 }

@@ -16,6 +16,10 @@ export class Project
         return this.#id;
     }
 
+    get title(){
+        return this.#title;
+    }
+
     addToDo(todo)
     {
         this.#toDos.push(todo);

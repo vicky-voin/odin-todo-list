@@ -33,6 +33,6 @@ console.log(myProject.getToDos());
 myLibrary.moveToDoFromTo(defaultProject.getToDos()[0], 1);
 console.log(myLibrary);
 
-const sidebarRoot = document.querySelector(".sidebar-nav");
-const sidebarView = new SidebarView();
-//sidebarRoot.innerHTML = sidebarView.getHtml();
+const sidebarRoot = document.querySelector(".sidebar-view-container");
+const sidebarView = new SidebarView(myLibrary, document);
+sidebarRoot.appendChild(sidebarView);
