@@ -4,6 +4,7 @@ import {Library} from "./library"
 import "./main.css"
 import {SidebarView} from "./views/sidebarView"
 import { ProjectView } from "./views/projectView"
+import { TodoView } from "./views/todoView"
 
 const defaultProject = createDefaultProject();
 createDefaultTasks().forEach(todo => {
@@ -44,4 +45,12 @@ sidebarRoot.appendChild(sidebarView.domObject);
 
 const projectViewRoot = document.querySelector(".project-view-container");
 const projectView = new ProjectView(defaultProject, document);
+projectView.eventEmitter.on('todoSelected', (todo) => 
+{
+    todoView.show(todo);
+});
 projectViewRoot.appendChild(projectView.domObject);
+
+const todoViewRoot = document.querySelector(".todo-view-container");
+const todoView = new TodoView(testToDo, document);
+todoViewRoot.appendChild(todoView.domObject);

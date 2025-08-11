@@ -29,7 +29,7 @@ export class SidebarView
         const projects = document.createElement('div');
         projects.className = 'projects-root';
 
-        const projectsSectionTitle = document.createElement('div');
+        const projectsSectionTitle = document.createElement('h3');
         projectsSectionTitle.textContent = 'My Projects';
         projectsSectionTitle.className = 'projects-title';
 

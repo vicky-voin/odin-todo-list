@@ -1,14 +1,24 @@
+import EventEmitter from "events";
 import "./todoItem.css"
 
 export class ToDoButton
 {
+    #eventEmitter
+    get eventEmitter() { return this.#eventEmitter; }
+
     #domObject;
-    get domObject() {return this.#domObject};
+    get domObject() { return this.#domObject };
 
     constructor(todo, document)
     {
+        this.#eventEmitter = new EventEmitter();
+
         const button = document.createElement('button');
         button.className = 'todo-item-button';
+        button.addEventListener('click', () =>
+        {
+            this.#eventEmitter.emit('selected');
+        })
 
         const checkbox = document.createElement('input');
         checkbox.type = 'checkbox';

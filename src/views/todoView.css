@@ -1,0 +1,24 @@
+.todo-view
+{
+    padding: 48px 24px;
+}
+
+.todo-title
+{
+    margin-bottom: 12px;
+}
+
+.todo-priority
+{
+    margin-left: 12px;
+    font-size: 1rem;
+    font-variant: small-caps;
+    color: rgb(136, 136, 136);
+}
+
+.steps-list
+{
+    display: flex;
+    flex-direction: column;
+    margin-top: 12px;
+}

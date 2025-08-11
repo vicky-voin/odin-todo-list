@@ -6,6 +6,7 @@
     gap: 12px;
     padding: 12px;
     border-top: 1px solid rgb(223, 223, 223);
+    text-align: left;
 }
 
 .todo-item-button:hover

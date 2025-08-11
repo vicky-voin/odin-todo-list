@@ -1,19 +1,3 @@
-export class Step
-{
-    #text = ''
-    #isComplete = false
-
-    constructor(text)
-    {
-        this.#text = text;
-    }
-
-    setIsComplete(isComplete)
-    {
-        this.#isComplete = isComplete;
-    }
-}
-
 export const Priority = {
     HIGH: "high",
     MEDIUM: "medium",
@@ -30,9 +14,21 @@ export class ToDo
     #steps = [];
     #isComplete = false;
 
-    constructor (title)
+    constructor (title, options = {})
     {
         this.#title = title;
+        
+        // Apply optional properties if provided
+        this.#description = options.description || '';
+        this.#priority = options.priority || Priority.MEDIUM;
+        this.#isComplete = options.isComplete || false;
+        this.#projectId = options.projectId || '';
+        
+        // If steps are provided, add them
+        if (options.steps && Array.isArray(options.steps)) {
+            this.#steps = options.steps.map(stepName => new ToDo(stepName));
+        }
+        
         console.log(`ToDo created, Title: ${this.#title}, ID: ${this.#id}`);
     }
 
@@ -78,7 +74,7 @@ export class ToDo
 
     addStep(stepName)
     {
-        let step = new Step(stepName);
+        let step = new ToDo(stepName);
         this.#steps.push(step);
 
         return step;
@@ -105,9 +101,21 @@ export class ToDo
 function createDefaultTasks()
 {
     return [
-        new ToDo("Do 30 minutes of exercie"),
-        new ToDo("Buy milk"),
-        new ToDo("Schedule a dentist appointment")
+        new ToDo("Do 30 minutes of exercie",
+            {
+                description: "Follow that Youtube video with the cardio workout"
+            }
+        ),
+        new ToDo("Buy milk",
+            {
+                steps: ["Get dressed", "Leave the house", "Walk to the store", "Get milk", "Walk back"]
+            }
+        ),
+        new ToDo("Schedule a dentist appointment",
+            {
+                priority: Priority.HIGH
+            }
+        )
     ]
 }
 
