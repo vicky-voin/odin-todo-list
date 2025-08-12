@@ -1,5 +1,7 @@
 import "./todoView.css"
 import {ToDoButton} from "../components/projectView/todoItem"
+import { DropdownTag } from "../components/common/dropdownTag";
+import { Priority } from "../todo";
 
 export class TodoView
 {
@@ -22,18 +24,22 @@ export class TodoView
     {
         this.clear();
         
+        const header = document.createElement('div');
+        header.className = "todo-header";
+
         const title = document.createElement('h1');
         title.className = "todo-title";
         title.textContent = todo.title;
 
+        const priority = new DropdownTag([Priority.HIGH, Priority.MEDIUM, Priority.LOW], document);
+        priority.domObject.classList.add("todo-priority");
+
+        header.appendChild(title);
+        header.appendChild(priority.domObject);
+
         const description = document.createElement('div');
         description.className = "todo-description";
         description.textContent = todo.description;
-
-        //TODO: replace with a tag object
-        const priority = document.createElement('span');
-        priority.className = "todo-priority";
-        priority.textContent = todo.priority;
 
         const stepsList = document.createElement('div');
         stepsList.className = 'steps-list';
@@ -44,8 +50,7 @@ export class TodoView
             stepsList.appendChild(stepItem.domObject);
         });
 
-        this.#domObject.appendChild(title);
-        title.appendChild(priority);
+        this.#domObject.appendChild(header);
         this.#domObject.appendChild(description);
         this.#domObject.appendChild(stepsList);
     }

@@ -3,17 +3,12 @@
     padding: 48px 24px;
 }
 
-.todo-title
+.todo-header
 {
     margin-bottom: 12px;
-}
-
-.todo-priority
-{
-    margin-left: 12px;
-    font-size: 1rem;
-    font-variant: small-caps;
-    color: rgb(136, 136, 136);
+    display: flex;
+    gap: 24px;
+    align-items: center;
 }
 
 .steps-list
@@ -22,3 +17,8 @@
     flex-direction: column;
     margin-top: 12px;
 }
+
+
+.todo-priority.value-high, .option-high { background-color: #e74c3c;}
+.todo-priority.value-medium, .option-medium { background-color: #f39c12; }
+.todo-priority.value-low, .option-low { background-color: #27ae60; }
