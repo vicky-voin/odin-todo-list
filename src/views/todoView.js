@@ -2,11 +2,14 @@ import "./todoView.css"
 import {ToDoButton} from "../components/projectView/todoItem"
 import { DropdownTag } from "../components/common/dropdownTag";
 import { Priority } from "../todo";
+import EventEmitter from "events";
 
 export class TodoView
 {
     #domObject;
+    #eventEmitter;
     #steps = [];
+    #currentTodo;
     
     get domObject() {return this.#domObject};
 
@@ -16,6 +19,7 @@ export class TodoView
         root.className = 'todo-view';
         
         this.#domObject = root;
+        this.#eventEmitter = new EventEmitter();
 
         this.show(todo);
     }
@@ -23,6 +27,7 @@ export class TodoView
     show(todo)
     {
         this.clear();
+        this.#currentTodo = todo;
         
         const header = document.createElement('div');
         header.className = "todo-header";
@@ -31,8 +36,13 @@ export class TodoView
         title.className = "todo-title";
         title.textContent = todo.title;
 
-        const priority = new DropdownTag([Priority.HIGH, Priority.MEDIUM, Priority.LOW], document);
+        const priority = new DropdownTag([Priority.HIGH, Priority.MEDIUM, Priority.LOW], document, todo.priority);
         priority.domObject.classList.add("todo-priority");
+
+        priority.eventEmitter.on('valueChanged', (newValue) => 
+        {
+            this.updateTodoProperty('priority', newValue);
+        });
 
         header.appendChild(title);
         header.appendChild(priority.domObject);
@@ -65,5 +75,19 @@ export class TodoView
         this.#steps = [];
         
         this.#domObject.innerHTML = '';
+    }
+
+    updateTodoProperty(property, value) {
+        if (this.#currentTodo) {
+            this.#currentTodo[property] = value;
+            this.#eventEmitter.emit('todoChanged', {
+                id: this.#currentTodo.id,
+                [property]: value
+            });
+        }
+    }
+
+    get eventEmitter() {
+        return this.#eventEmitter;
     }
 }

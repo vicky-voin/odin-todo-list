@@ -9,13 +9,15 @@ export class DropdownTag
     #domObject;
     get domObject() { return this.#domObject };
 
-    constructor(options, document)
+    constructor(options, document, initialValue = options[0])
     {
         this.#eventEmitter = new EventEmitter();
 
         const dropdown = document.createElement('select');
         dropdown.id = "tag-dropdown";
         dropdown.className = 'tag-dropdown';
+
+        this.#domObject = dropdown;
 
         options.forEach(option => {
             let dropdownOption = document.createElement('option');
@@ -27,16 +29,21 @@ export class DropdownTag
         });
 
         dropdown.addEventListener('change', () => {
-            options.forEach(option => {
-                dropdown.classList.remove(`value-${option}`);
-            });
-            dropdown.classList.add(`value-${dropdown.value}`);
+            this.#updateValue(dropdown.value, options);
         });
 
-        if (options.length > 0) {
-            dropdown.classList.add(`value-${options[0]}`);
-        }
+        this.#updateValue(initialValue, options);
 
-        this.#domObject = dropdown;
+    }
+
+    #updateValue(newValue, options)
+    {
+        this.#domObject.value = newValue;
+
+        options.forEach(option => {
+            this.#domObject.classList.remove(`value-${option}`);
+        });
+        this.#domObject.classList.add(`value-${this.#domObject.value}`);
+        this.#eventEmitter.emit('valueChanged', this.#domObject.value);
     }
 }
