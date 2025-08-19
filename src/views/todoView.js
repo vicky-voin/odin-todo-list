@@ -3,6 +3,7 @@ import {ToDoButton} from "../components/projectView/todoItem"
 import { DropdownTag } from "../components/common/dropdownTag";
 import { Priority } from "../todo";
 import EventEmitter from "events";
+import autosize from "autosize";
 
 export class TodoView
 {
@@ -32,9 +33,17 @@ export class TodoView
         const header = document.createElement('div');
         header.className = "todo-header";
 
-        const title = document.createElement('h1');
+        const completedCheckbox = document.createElement('input');
+        completedCheckbox.type = 'checkbox';
+        completedCheckbox.className = "todo-completed-checkbox";
+
+        const title = document.createElement('textarea');
         title.className = "todo-title";
         title.textContent = todo.title;
+        autosize(title);
+        title.addEventListener('focus', () => {
+            autosize.update(title);
+        });
 
         const priority = new DropdownTag([Priority.HIGH, Priority.MEDIUM, Priority.LOW], document, todo.priority);
         priority.domObject.classList.add("todo-priority");
@@ -44,6 +53,7 @@ export class TodoView
             this.updateTodoProperty('priority', newValue);
         });
 
+        header.appendChild(completedCheckbox);
         header.appendChild(title);
         header.appendChild(priority.domObject);
 
@@ -63,6 +73,25 @@ export class TodoView
         this.#domObject.appendChild(header);
         this.#domObject.appendChild(description);
         this.#domObject.appendChild(stepsList);
+
+        const observer = new MutationObserver((mutations) => {
+            mutations.forEach((mutation) => {
+                if (mutation.type === 'childList') {
+                    mutation.addedNodes.forEach((node) => {
+                        if (node === this.#domObject || node.contains?.(this.#domObject)) {
+                            autosize.update(title);
+                            observer.disconnect(); // Stop observing once triggered
+                        }
+                    });
+                }
+            });
+        });
+
+        if (!document.contains(this.#domObject)) {
+            observer.observe(document.body, { childList: true, subtree: true });
+        } else {
+            autosize.update(title);
+        }
     }
 
     clear()
@@ -89,5 +118,13 @@ export class TodoView
 
     get eventEmitter() {
         return this.#eventEmitter;
+    }
+
+    // Call this method after attaching TodoView to the DOM
+    onAttachedToDOM() {
+        const title = this.#domObject.querySelector('.todo-title');
+        if (title) {
+            autosize.update(title);
+        }
     }
 }
