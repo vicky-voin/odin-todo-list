@@ -1,23 +1,20 @@
 import EventEmitter from "events";
 import "./dropdownTag.css"
+import { ViewComponent } from "./viewComponent";
 
-export class DropdownTag
+export class DropdownTag extends ViewComponent
 {
-    #eventEmitter
-    get eventEmitter() { return this.#eventEmitter; }
-
-    #domObject;
-    get domObject() { return this.#domObject };
-
     constructor(options, document, initialValue = options[0])
     {
-        this.#eventEmitter = new EventEmitter();
+        super();
+        
+        this.__eventEmitter = new EventEmitter();
 
         const dropdown = document.createElement('select');
         dropdown.id = "tag-dropdown";
         dropdown.className = 'tag-dropdown';
 
-        this.#domObject = dropdown;
+        this.__domObject = dropdown;
 
         options.forEach(option => {
             let dropdownOption = document.createElement('option');
@@ -33,17 +30,16 @@ export class DropdownTag
         });
 
         this.#updateValue(initialValue, options);
-
     }
 
     #updateValue(newValue, options)
     {
-        this.#domObject.value = newValue;
+        this.__domObject.value = newValue;
 
         options.forEach(option => {
-            this.#domObject.classList.remove(`value-${option}`);
+            this.__domObject.classList.remove(`value-${option}`);
         });
-        this.#domObject.classList.add(`value-${this.#domObject.value}`);
-        this.#eventEmitter.emit('valueChanged', this.#domObject.value);
+        this.__domObject.classList.add(`value-${this.__domObject.value}`);
+        this.__eventEmitter.emit('valueChanged', this.__domObject.value);
     }
 }

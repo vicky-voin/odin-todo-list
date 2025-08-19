@@ -13,18 +13,26 @@
 
 .todo-title
 {
-    resize: none;
-    border: none;
-    outline: none;
     font-size: 2rem;
     font-weight: bold;
-    font-family: inherit;
     height: 2rem;
 }
 
 .todo-priority
 {
     margin: 0px 12px;
+}
+
+.todo-section-title
+{
+    font-size: 0.9rem;
+    letter-spacing: 0.09rem;
+    margin: 12px 0px;
+}
+
+.todo-description::placeholder
+{
+    color: grey;
 }
 
 .steps-list

@@ -1,14 +1,14 @@
 import EventEmitter from "events";
+import { ViewComponent } from "../common/viewComponent";
 
-export class ProjectButton
+export class ProjectButton extends ViewComponent
 {
     #badgeValue;
 
-    #domRoot;
-    get domObject() {return this.#domRoot};
-
     constructor(project, document)
     {
+        super();
+
         const button = document.createElement('button');
         button.className = "project-item";
 
@@ -27,10 +27,9 @@ export class ProjectButton
         button.appendChild(title);
         button.appendChild(badge);
 
-        this.#domRoot = button;
+        this.__domObject = button;
 
-        this.eventEmitter = new EventEmitter();
-        button.addEventListener('click', () => {this.eventEmitter.emit('click')})
+        button.addEventListener('click', () => {this.__eventEmitter.emit('click')})
         project.eventEmitter.on('sizeChanged', (count) => this.updateBadge(count));
     }
 

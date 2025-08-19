@@ -2,15 +2,13 @@ import "./sidebarView.css"
 import { ProjectButton } from "../components/sidebar/projectButton";
 import logoSvg from "../img/check-circle.svg";
 import EventEmitter from "events";
+import { ViewComponent } from "../components/common/viewComponent";
 
-export class SidebarView
+export class SidebarView extends ViewComponent
 {
-    #domObject;
-    get domObject() {return this.#domObject};
-
     constructor(library, document)
     {
-        this.eventEmitter = new EventEmitter();
+        super();
         
         const root = document.createElement('div');
         root.className = 'sidebar';
@@ -38,7 +36,7 @@ export class SidebarView
         library.getProjects().forEach(project => {
             const projectButton = new ProjectButton(project, document);
             projectButton.eventEmitter.on('click', () => {
-                this.eventEmitter.emit('projectSelected', project);
+                this.__eventEmitter.emit('projectSelected', project);
             })
             projects.appendChild(projectButton.domObject);
         });
@@ -49,6 +47,6 @@ export class SidebarView
         root.appendChild(logo);
         root.appendChild(projects);
 
-        this.#domObject = root;
+        this.__domObject = root;
     }
 }

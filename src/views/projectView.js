@@ -1,24 +1,22 @@
 import "./projectView.css"
 import { ToDoButton } from "../components/projectView/todoItem";
 import EventEmitter from "events";
+import { ViewComponent } from "../components/common/viewComponent";
 
-export class ProjectView
+export class ProjectView extends ViewComponent
 {
-    #domObject;
-    #eventEmitter;
     #todoItems = [];
-    
-    get domObject() {return this.#domObject};
-    get eventEmitter() {return this.#eventEmitter};
 
     constructor(project, document)
     {
+        super();
+        
         const root = document.createElement('div');
         root.className = 'project-view';
         
-        this.#domObject = root;
+        this.__domObject = root;
         
-        this.#eventEmitter = new EventEmitter();
+        this.__eventEmitter = new EventEmitter();
 
         this.show(project);
     }
@@ -38,14 +36,14 @@ export class ProjectView
             let todoItem = new ToDoButton(todo, document);
             todoItem.eventEmitter.on('selected', () =>
             {
-                this.#eventEmitter.emit('todoSelected', todo);
+                this.__eventEmitter.emit('todoSelected', todo);
             });
             this.#todoItems.push(todoItem);
             todosList.appendChild(todoItem.domObject);
         });
 
-        this.#domObject.appendChild(title);
-        this.#domObject.appendChild(todosList);
+        this.__domObject.appendChild(title);
+        this.__domObject.appendChild(todosList);
     }
 
     clear()
@@ -57,6 +55,6 @@ export class ProjectView
         });
         this.#todoItems = [];
         
-        this.#domObject.innerHTML = '';
+        this.__domObject.innerHTML = '';
     }
 }

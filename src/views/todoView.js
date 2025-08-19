@@ -4,23 +4,23 @@ import { DropdownTag } from "../components/common/dropdownTag";
 import { Priority } from "../todo";
 import EventEmitter from "events";
 import autosize from "autosize";
+import { ViewComponent } from "../components/common/viewComponent";
+import { DynamicTextArea } from "../components/common/dynamicTextArea";
 
-export class TodoView
+export class TodoView extends ViewComponent
 {
-    #domObject;
-    #eventEmitter;
     #steps = [];
     #currentTodo;
-    
-    get domObject() {return this.#domObject};
 
     constructor(todo, document)
     {
+        super();
+
         const root = document.createElement('div');
         root.className = 'todo-view';
         
-        this.#domObject = root;
-        this.#eventEmitter = new EventEmitter();
+        this.__domObject = root;
+        this.__eventEmitter = new EventEmitter();
 
         this.show(todo);
     }
@@ -37,12 +37,11 @@ export class TodoView
         completedCheckbox.type = 'checkbox';
         completedCheckbox.className = "todo-completed-checkbox";
 
-        const title = document.createElement('textarea');
-        title.className = "todo-title";
-        title.textContent = todo.title;
-        autosize(title);
-        title.addEventListener('focus', () => {
-            autosize.update(title);
+        const title = new DynamicTextArea(document);
+        title.domObject.classList.add("todo-title");
+        title.domObject.textContent = todo.title;
+        title.domObject.addEventListener("change", () => {
+            this.updateTodoProperty("title", title.domObject.value);
         });
 
         const priority = new DropdownTag([Priority.HIGH, Priority.MEDIUM, Priority.LOW], document, todo.priority);
@@ -54,12 +53,21 @@ export class TodoView
         });
 
         header.appendChild(completedCheckbox);
-        header.appendChild(title);
+        header.appendChild(title.domObject);
         header.appendChild(priority.domObject);
 
-        const description = document.createElement('div');
-        description.className = "todo-description";
-        description.textContent = todo.description;
+        const descriptionTitle = document.createElement('div');
+        descriptionTitle.className = "todo-section-title";
+        descriptionTitle.textContent = "NOTES";
+
+        const description = new DynamicTextArea(document);
+        description.domObject.classList.add("todo-description");
+        if(todo.description)
+            description.domObject.textContent = todo.description;
+        description.domObject.placeholder = "Insert your notes here...";
+        description.domObject.addEventListener("change", () => {
+            this.updateTodoProperty("description", description.domObject.value);
+        });
 
         const stepsList = document.createElement('div');
         stepsList.className = 'steps-list';
@@ -70,28 +78,10 @@ export class TodoView
             stepsList.appendChild(stepItem.domObject);
         });
 
-        this.#domObject.appendChild(header);
-        this.#domObject.appendChild(description);
-        this.#domObject.appendChild(stepsList);
-
-        const observer = new MutationObserver((mutations) => {
-            mutations.forEach((mutation) => {
-                if (mutation.type === 'childList') {
-                    mutation.addedNodes.forEach((node) => {
-                        if (node === this.#domObject || node.contains?.(this.#domObject)) {
-                            autosize.update(title);
-                            observer.disconnect(); // Stop observing once triggered
-                        }
-                    });
-                }
-            });
-        });
-
-        if (!document.contains(this.#domObject)) {
-            observer.observe(document.body, { childList: true, subtree: true });
-        } else {
-            autosize.update(title);
-        }
+        this.__domObject.appendChild(header);
+        this.__domObject.appendChild(descriptionTitle);
+        this.__domObject.appendChild(description.domObject);
+        this.__domObject.appendChild(stepsList);
     }
 
     clear()
@@ -103,28 +93,16 @@ export class TodoView
         });
         this.#steps = [];
         
-        this.#domObject.innerHTML = '';
+        this.__domObject.innerHTML = '';
     }
 
     updateTodoProperty(property, value) {
         if (this.#currentTodo) {
             this.#currentTodo[property] = value;
-            this.#eventEmitter.emit('todoChanged', {
+            this.__eventEmitter.emit('todoChanged', {
                 id: this.#currentTodo.id,
                 [property]: value
             });
-        }
-    }
-
-    get eventEmitter() {
-        return this.#eventEmitter;
-    }
-
-    // Call this method after attaching TodoView to the DOM
-    onAttachedToDOM() {
-        const title = this.#domObject.querySelector('.todo-title');
-        if (title) {
-            autosize.update(title);
         }
     }
 }

@@ -1,23 +1,20 @@
 import EventEmitter from "events";
 import "./todoItem.css"
+import { ViewComponent } from "../common/viewComponent";
 
-export class ToDoButton
+export class ToDoButton extends ViewComponent
 {
-    #eventEmitter
-    get eventEmitter() { return this.#eventEmitter; }
-
-    #domObject;
-    get domObject() { return this.#domObject };
-
     constructor(todo, document)
     {
-        this.#eventEmitter = new EventEmitter();
+        super();
+
+        this.__eventEmitter = new EventEmitter();
 
         const button = document.createElement('button');
         button.className = 'todo-item-button';
         button.addEventListener('click', () =>
         {
-            this.#eventEmitter.emit('selected');
+            this.__eventEmitter.emit('selected');
         })
 
         const checkbox = document.createElement('input');
@@ -31,6 +28,6 @@ export class ToDoButton
         button.appendChild(checkbox);
         button.appendChild(title);
 
-        this.#domObject = button;
+        this.__domObject = button;
     }
 }
