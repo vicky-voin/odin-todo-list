@@ -69,6 +69,10 @@ export class TodoView extends ViewComponent
             this.updateTodoProperty("description", description.domObject.value);
         });
 
+        const stepsTitle = document.createElement('div');
+        stepsTitle.className = "todo-section-title";
+        stepsTitle.textContent = "STEPS";
+
         const stepsList = document.createElement('div');
         stepsList.className = 'steps-list';
 
@@ -81,6 +85,7 @@ export class TodoView extends ViewComponent
         this.__domObject.appendChild(header);
         this.__domObject.appendChild(descriptionTitle);
         this.__domObject.appendChild(description.domObject);
+        this.__domObject.appendChild(stepsTitle);
         this.__domObject.appendChild(stepsList);
     }
 

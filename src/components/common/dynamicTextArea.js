@@ -10,13 +10,13 @@ export class DynamicTextArea extends ViewComponent
         const textArea = document.createElement('textarea');
         textArea.className = "dynamic-text-area";
 
-        autosize(textArea);
-
         textArea.addEventListener('change', () => {
             autosize.update(textArea);
         });
 
         this.__domObject = textArea;
+
+        autosize(textArea);
 
         const observer = new MutationObserver((mutations) => {
                     mutations.forEach((mutation) => {
