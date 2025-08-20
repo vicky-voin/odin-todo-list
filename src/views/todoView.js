@@ -6,6 +6,7 @@ import EventEmitter from "events";
 import autosize from "autosize";
 import { ViewComponent } from "../components/common/viewComponent";
 import { DynamicTextArea } from "../components/common/dynamicTextArea";
+import { AddItemButton } from "../components/common/addItemButton";
 
 export class TodoView extends ViewComponent
 {
@@ -90,6 +91,9 @@ export class TodoView extends ViewComponent
             this.#steps.push(stepItem);
             stepsList.appendChild(stepItem.domObject);
         });
+
+        const addStepButton = new AddItemButton(document);
+        stepsList.appendChild(addStepButton.domObject);
 
         this.__domObject.appendChild(header);
         this.__domObject.appendChild(descriptionTitle);

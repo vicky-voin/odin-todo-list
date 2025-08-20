@@ -12,14 +12,12 @@ export class ToDoButton extends ViewComponent
     {
         super();
 
-        this.__eventEmitter = new EventEmitter();
-
         const button = document.createElement('button');
         button.className = 'todo-item-button';
         button.addEventListener('click', () =>
         {
             this.__eventEmitter.emit('selected');
-        })
+        });
 
         this.#checkbox = document.createElement('input');
         this.#checkbox.type = 'checkbox';
