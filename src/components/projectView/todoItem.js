@@ -1,10 +1,14 @@
 import EventEmitter from "events";
 import "./todoItem.css"
 import { ViewComponent } from "../common/viewComponent";
+import { DynamicTextArea } from "../common/dynamicTextArea";
 
 export class ToDoButton extends ViewComponent
 {
-    constructor(todo, document)
+    #checkbox;
+    #title;
+
+    constructor(todo, isEditable, document)
     {
         super();
 
@@ -17,17 +21,35 @@ export class ToDoButton extends ViewComponent
             this.__eventEmitter.emit('selected');
         })
 
-        const checkbox = document.createElement('input');
-        checkbox.type = 'checkbox';
-        checkbox.className = "todo-item-checkbox";
+        this.#checkbox = document.createElement('input');
+        this.#checkbox.type = 'checkbox';
+        this.#checkbox.className = "todo-item-checkbox";
 
-        const title = document.createElement('div');
-        title.className = "todo-item-title";
-        title.textContent = todo.title;
+        this.#title = isEditable? new DynamicTextArea(document).domObject : document.createElement('div');
+        this.#title.classList.add("todo-item-title");
+        this.#title.textContent = todo.title;
 
-        button.appendChild(checkbox);
-        button.appendChild(title);
+        button.appendChild(this.#checkbox);
+        button.appendChild(this.#title);
 
         this.__domObject = button;
+
+        this.#title.addEventListener('change', () => { 
+            this.__eventEmitter.emit('textChanged', this.#title.textContent)
+        });
+
+        this.#checkbox.addEventListener('click', () => { 
+            this.__eventEmitter.emit('checked', this.#checkbox.checked);
+        });
+    }
+
+    setChecked(isChecked)
+    {
+        this.#checkbox.checked = isChecked;
+    }
+
+    setText(text)
+    {
+        this.#title.textContent = text;
     }
 }

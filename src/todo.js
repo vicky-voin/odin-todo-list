@@ -1,3 +1,5 @@
+import { EventEmitter } from "events";
+
 export const Priority = {
     HIGH: "high",
     MEDIUM: "medium",
@@ -13,9 +15,12 @@ export class ToDo
     #priority = Priority.MEDIUM;
     #steps = [];
     #isComplete = false;
+    
+    #eventEmitter;
 
     constructor (title, options = {})
     {
+        this.#eventEmitter = new EventEmitter();
         this.#title = title;
         
         // Apply optional properties if provided
@@ -32,6 +37,10 @@ export class ToDo
         console.log(`ToDo created, Title: ${this.#title}, ID: ${this.#id}`);
     }
 
+    get eventEmitter(){
+        return this.#eventEmitter;
+    }
+
     get id() {
         return this.#id;
     }
@@ -42,6 +51,7 @@ export class ToDo
 
     set projectId(value) {
         this.#projectId = value;
+        this.#emitChange('projectId');
     }
 
     get title() {
@@ -50,6 +60,7 @@ export class ToDo
 
     set title(value) {
         this.#title = value;
+        this.#emitChange('title');
     }
 
     get description() {
@@ -58,6 +69,7 @@ export class ToDo
 
     set description(value) {
         this.#description = value;
+        this.#emitChange('description');
     }
 
     get priority() {
@@ -66,6 +78,7 @@ export class ToDo
 
     set priority(value) {
         this.#priority = value;
+        this.#emitChange('priority');
     }
 
     get steps() {
@@ -91,10 +104,12 @@ export class ToDo
 
     set isComplete(value) {
         this.#isComplete = value;
+        this.#emitChange('isComplete');
     }
 
-    setIsComplete(isComplete) {
-        this.#isComplete = isComplete;
+    #emitChange(propertyName)
+    {
+        this.#eventEmitter.emit(propertyName, this[propertyName]);
     }
 }
 

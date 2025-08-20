@@ -20,8 +20,8 @@ testToDo.dueDate = new Date();
 testToDo.priority = Priority.HIGH;
 let step1 = testToDo.addStep("Step one of the test task");
 let step2 = testToDo.addStep("Step two of the test task");
-testToDo.setIsComplete(false);
-step1.setIsComplete(true);
+testToDo.isComplete = false;
+step1.isComplete = true;
 
 console.log(testToDo);
 

@@ -10,7 +10,7 @@ export class ProjectView extends ViewComponent
     constructor(project, document)
     {
         super();
-        
+
         const root = document.createElement('div');
         root.className = 'project-view';
         
@@ -33,11 +33,19 @@ export class ProjectView extends ViewComponent
         todosList.className = 'todos-list';
 
         project.getToDos().forEach(todo => {
-            let todoItem = new ToDoButton(todo, document);
+            let todoItem = new ToDoButton(todo, false, document);
             todoItem.eventEmitter.on('selected', () =>
             {
                 this.__eventEmitter.emit('todoSelected', todo);
             });
+            todoItem.eventEmitter.on('checked', (isChecked) =>
+            {
+                todo.isComplete = isChecked;
+            });
+            todo.eventEmitter.on("isComplete", (newValue) => {todoItem.setChecked(newValue)});
+            todo.eventEmitter.on("title", (newValue) => {todoItem.setText(newValue)});
+            
+            todoItem.setChecked(todo.isComplete);
             this.#todoItems.push(todoItem);
             todosList.appendChild(todoItem.domObject);
         });

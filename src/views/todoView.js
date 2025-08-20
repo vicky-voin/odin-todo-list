@@ -36,6 +36,11 @@ export class TodoView extends ViewComponent
         const completedCheckbox = document.createElement('input');
         completedCheckbox.type = 'checkbox';
         completedCheckbox.className = "todo-completed-checkbox";
+        completedCheckbox.checked = todo.isComplete;
+        completedCheckbox.addEventListener("click", () => 
+        {
+            this.#currentTodo.isComplete = completedCheckbox.checked;
+        })
 
         const title = new DynamicTextArea(document);
         title.domObject.classList.add("todo-title");
@@ -77,7 +82,11 @@ export class TodoView extends ViewComponent
         stepsList.className = 'steps-list';
 
         todo.steps.forEach(step => {
-            let stepItem = new ToDoButton(step, document);
+            let stepItem = new ToDoButton(step, true, document);
+            stepItem.setChecked(step.isComplete);
+            stepItem.eventEmitter.on('checked', (isChecked) => {
+                step.isComplete = isChecked;
+            });
             this.#steps.push(stepItem);
             stepsList.appendChild(stepItem.domObject);
         });
