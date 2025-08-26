@@ -4,19 +4,21 @@ import "./dynamicTextArea.css";
 
 export class DynamicTextArea extends ViewComponent
 {
+    #textArea;
+
     constructor(document){
         super();
 
-        const textArea = document.createElement('textarea');
-        textArea.className = "dynamic-text-area";
+        this.#textArea = document.createElement('textarea');
+        this.#textArea.className = "dynamic-text-area";
 
-        textArea.addEventListener('change', () => {
-            autosize.update(textArea);
+        this.#textArea.addEventListener('change', () => {
+            autosize.update(this.#textArea);
         });
 
-        this.__domObject = textArea;
+        this.__domObject = this.#textArea;
 
-        autosize(textArea);
+        autosize(this.#textArea);
 
         const observer = new MutationObserver((mutations) => {
                     mutations.forEach((mutation) => {
@@ -36,5 +38,10 @@ export class DynamicTextArea extends ViewComponent
         } else {
             autosize.update(this.__domObject);
         };
+    }
+
+    refresh()
+    {
+        autosize.update(this.#textArea);
     }
 }

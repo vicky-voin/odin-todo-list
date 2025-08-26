@@ -3,6 +3,13 @@
     padding: 48px 24px;
 }
 
+.project-title
+{
+    word-wrap: break-word;
+    overflow-wrap: anywhere;
+    white-space: pre-wrap;
+}
+
 .todos-list
 {
     display: flex;

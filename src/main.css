@@ -19,7 +19,7 @@ body
     background-color: rgb(219, 235, 243);
 }
 
-div
+div, button
 {
     color: rgb(48, 48, 48);
     font-size: 1rem;

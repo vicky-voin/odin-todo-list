@@ -7,6 +7,7 @@ import autosize from "autosize";
 import { ViewComponent } from "../components/common/viewComponent";
 import { DynamicTextArea } from "../components/common/dynamicTextArea";
 import { AddItemButton } from "../components/common/addItemButton";
+import { DeleteButton } from "../components/common/deleteButton";
 
 export class TodoView extends ViewComponent
 {
@@ -58,9 +59,16 @@ export class TodoView extends ViewComponent
             this.updateTodoProperty('priority', newValue);
         });
 
+        const deleteButton = new DeleteButton(document);
+        deleteButton.eventEmitter.on('delete', () => 
+        {
+            this.eventEmitter.emit('deleteTodo', todo);
+        });
+
         header.appendChild(completedCheckbox);
         header.appendChild(title.domObject);
         header.appendChild(priority.domObject);
+        header.appendChild(deleteButton.domObject);
 
         const descriptionTitle = document.createElement('div');
         descriptionTitle.className = "todo-section-title";

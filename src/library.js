@@ -31,4 +31,9 @@ export class Library
     {
         return this.#projects;
     }
+
+    getProjectWithId(id)
+    {
+        return this.#projects.find((project) => project.id == id);
+    }
 }

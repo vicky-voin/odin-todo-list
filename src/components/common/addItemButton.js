@@ -18,9 +18,12 @@ export class AddItemButton extends ViewComponent
         const icon = document.createElement('button');
         icon.classList.add("add-item-icon");
 
-        const text = isEditable? new DynamicTextArea(document).domObject : document.createElement('div');
+        let text = null;
         if(isEditable)
         {
+            const dynamicText = new DynamicTextArea(document);
+            text = dynamicText.domObject;
+
             text.placeholder = "Add item";
 
             icon.addEventListener("click", () => {
@@ -29,11 +32,13 @@ export class AddItemButton extends ViewComponent
                     document.activeElement.blur();
                     this.__eventEmitter.emit("submit", text.value.trim());
                     text.value = "";
+                    dynamicText.refresh();
                 }
             });
         }
         else
         {
+            text = document.createElement('div');
             text.textContent = "Add item";
         }
 

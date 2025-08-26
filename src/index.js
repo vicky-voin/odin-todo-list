@@ -41,16 +41,31 @@ sidebarView.eventEmitter.on('projectSelected', (project) =>
 {
     projectView.show(project, document);
 });
+sidebarView.eventEmitter.on('addNewProject', (projectTitle) => 
+{
+    const newProject = new Project(projectTitle, myLibrary);
+    sidebarView.refreshProjectList(document, myLibrary);
+});
 sidebarRoot.appendChild(sidebarView.domObject);
 
 const projectViewRoot = document.querySelector(".project-view-container");
 const projectView = new ProjectView(defaultProject, document);
 projectView.eventEmitter.on('todoSelected', (todo) => 
 {
+    todoViewRoot.hidden = false;
     todoView.show(todo);
 });
 projectViewRoot.appendChild(projectView.domObject);
 
 const todoViewRoot = document.querySelector(".todo-view-container");
 const todoView = new TodoView(testToDo, document);
+todoView.eventEmitter.on('deleteTodo', (todo) => 
+{
+    let project = myLibrary.getProjectWithId(todo.projectId);
+    project.deleteToDoWithId(todo.id);
+    todoView.clear();
+    todoViewRoot.hidden = true;
+    projectView.show(project, document);
+});
+todoViewRoot.hidden = true;
 todoViewRoot.appendChild(todoView.domObject);

@@ -3,9 +3,12 @@ import { ProjectButton } from "../components/sidebar/projectButton";
 import logoSvg from "../img/check-circle.svg";
 import EventEmitter from "events";
 import { ViewComponent } from "../components/common/viewComponent";
+import { AddItemButton } from "../components/common/addItemButton";
 
 export class SidebarView extends ViewComponent
 {
+    #projects;
+
     constructor(library, document)
     {
         super();
@@ -24,29 +27,44 @@ export class SidebarView extends ViewComponent
         logoText.textContent = 'ToDoAble';
         logoText.className = "logo-text";
 
-        const projects = document.createElement('div');
-        projects.className = 'projects-root';
+        this.#projects = document.createElement('div');
+        this.#projects.className = 'projects-root';
 
-        const projectsSectionTitle = document.createElement('h3');
-        projectsSectionTitle.textContent = 'My Projects';
-        projectsSectionTitle.className = 'projects-title';
+        this.refreshProjectList(document, library);
 
-        projects.appendChild(projectsSectionTitle);
-
-        library.getProjects().forEach(project => {
-            const projectButton = new ProjectButton(project, document);
-            projectButton.eventEmitter.on('click', () => {
-                this.__eventEmitter.emit('projectSelected', project);
-            })
-            projects.appendChild(projectButton.domObject);
+        const addProjectButton = new AddItemButton(document);
+        addProjectButton.domObject.classList.add("add-project-button");
+        addProjectButton.eventEmitter.on('submit', (newItem) => 
+        {
+            this.eventEmitter.emit('addNewProject', newItem);
         });
 
         logo.appendChild(logoImg);
         logo.appendChild(logoText);
 
         root.appendChild(logo);
-        root.appendChild(projects);
+        root.appendChild(this.#projects);
+        root.appendChild(addProjectButton.domObject);
 
         this.__domObject = root;
+    }
+
+    refreshProjectList(document, library)
+    {
+        this.#projects.innerHTML = '';
+
+        const projectsSectionTitle = document.createElement('h3');
+        projectsSectionTitle.textContent = 'My Projects';
+        projectsSectionTitle.className = 'projects-title';
+
+        this.#projects.appendChild(projectsSectionTitle);
+
+        library.getProjects().forEach(project => {
+            const projectButton = new ProjectButton(project, document);
+            projectButton.eventEmitter.on('click', () => {
+                this.__eventEmitter.emit('projectSelected', project);
+            })
+            this.#projects.appendChild(projectButton.domObject);
+        });
     }
 }

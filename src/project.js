@@ -39,6 +39,12 @@ export class Project
         this.eventEmitter.emit('sizeChanged', this.#toDos.length);
     }
 
+    deleteToDoWithId(id)
+    {
+        let index = this.#toDos.findIndex((todo) => todo.id == id);
+        this.deleteToDo(index);
+    }
+
     getToDos()
     {
         return this.#toDos;
