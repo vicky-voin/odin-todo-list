@@ -90,6 +90,7 @@ export class TodoView extends ViewComponent
         });
 
         const addStepButton = new AddItemButton(document);
+        addStepButton.domObject.classList.add('todo-add-button');
         addStepButton.eventEmitter.on('submit', (value) => 
         {
             let newStep = this.#getStepItem(todo.addStep(value), document);

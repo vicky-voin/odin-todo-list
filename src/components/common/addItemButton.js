@@ -4,7 +4,7 @@ import { ViewComponent } from "./viewComponent";
 
 export class AddItemButton extends ViewComponent
 {
-    constructor(document)
+    constructor(document, isEditable = true)
     {
         super();
 
@@ -18,17 +18,26 @@ export class AddItemButton extends ViewComponent
         const icon = document.createElement('button');
         icon.classList.add("add-item-icon");
 
-        const text = new DynamicTextArea(document).domObject;
-        text.placeholder = "Add item";
-        text.classList.add("add-item-text");
+        const text = isEditable? new DynamicTextArea(document).domObject : document.createElement('div');
+        if(isEditable)
+        {
+            text.placeholder = "Add item";
 
-        icon.addEventListener("click", () => {
-            if(text.value && text.value.trim())
-            {
-                this.__eventEmitter.emit("submit", text.value.trim());
-                text.value = "";
-            }
-        });
+            icon.addEventListener("click", () => {
+                if(text.value && text.value.trim())
+                {
+                    document.activeElement.blur();
+                    this.__eventEmitter.emit("submit", text.value.trim());
+                    text.value = "";
+                }
+            });
+        }
+        else
+        {
+            text.textContent = "Add item";
+        }
+
+        text.classList.add("add-item-text");
 
         button.appendChild(icon);
         button.appendChild(text);

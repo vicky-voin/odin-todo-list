@@ -48,6 +48,23 @@
     margin-top: 12px;
 }
 
+.todo-add-button
+{
+    border-top: 1px solid rgb(223, 223, 223);
+    border-radius: 4px;
+}
+
+.todo-add-button:hover,
+.todo-add-button:focus-within
+{
+    outline: 1px solid rgba(0, 136, 245, 1);
+    box-shadow: 5px 5px 16px 0px rgba(0,0,0,0.23);
+}
+
+.todo-add-button:last-of-type
+{
+    border-bottom: 1px solid rgb(223, 223, 223);
+}
 
 .todo-priority.value-high, .option-high { background-color: #e74c3c;}
 .todo-priority.value-medium, .option-medium { background-color: #f39c12; }

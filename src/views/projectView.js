@@ -2,6 +2,8 @@ import "./projectView.css"
 import { ToDoButton } from "../components/projectView/todoItem";
 import EventEmitter from "events";
 import { ViewComponent } from "../components/common/viewComponent";
+import { AddItemButton } from "../components/common/addItemButton";
+import { ToDo } from "../todo";
 
 export class ProjectView extends ViewComponent
 {
@@ -33,25 +35,28 @@ export class ProjectView extends ViewComponent
         todosList.className = 'todos-list';
 
         project.getToDos().forEach(todo => {
-            let todoItem = new ToDoButton(todo, false, document);
-            todoItem.eventEmitter.on('selected', () =>
-            {
-                this.__eventEmitter.emit('todoSelected', todo);
-            });
-            todoItem.eventEmitter.on('checked', (isChecked) =>
-            {
-                todo.isComplete = isChecked;
-            });
-            todo.eventEmitter.on("isComplete", (newValue) => {todoItem.setChecked(newValue)});
-            todo.eventEmitter.on("title", (newValue) => {todoItem.setText(newValue)});
-            
-            todoItem.setChecked(todo.isComplete);
+            let todoItem = this.#getToDoButton(todo, document);
             this.#todoItems.push(todoItem);
             todosList.appendChild(todoItem.domObject);
         });
 
+        const addTodoButton = new AddItemButton(document);
+        addTodoButton.domObject.classList.add('project-add-button');
+        addTodoButton.eventEmitter.on('submit', (value) => 
+        {
+            const newToDo = new ToDo(value);
+            project.addToDo(newToDo);
+
+            let todoItem = this.#getToDoButton(newToDo, document);
+            this.#todoItems.push(todoItem);
+            todosList.appendChild(todoItem.domObject);
+
+            this.__eventEmitter.emit('todoSelected', newToDo);
+        });
+
         this.__domObject.appendChild(title);
         this.__domObject.appendChild(todosList);
+        this.__domObject.appendChild(addTodoButton.domObject);
     }
 
     clear()
@@ -64,5 +69,24 @@ export class ProjectView extends ViewComponent
         this.#todoItems = [];
         
         this.__domObject.innerHTML = '';
+    }
+
+    #getToDoButton(todo, document)
+    {
+        let todoItem = new ToDoButton(todo, false, document);
+        todoItem.eventEmitter.on('selected', () =>
+        {
+            this.__eventEmitter.emit('todoSelected', todo);
+        });
+        todoItem.eventEmitter.on('checked', (isChecked) =>
+        {
+            todo.isComplete = isChecked;
+        });
+        todo.eventEmitter.on("isComplete", (newValue) => {todoItem.setChecked(newValue)});
+        todo.eventEmitter.on("title", (newValue) => {todoItem.setText(newValue)});
+        
+        todoItem.setChecked(todo.isComplete);
+
+        return todoItem;
     }
 }
