@@ -1,6 +1,6 @@
 import "./addItemButton.css"
+import { DynamicTextArea } from "./dynamicTextArea";
 import { ViewComponent } from "./viewComponent";
-import plusIcon from "../../img/plus-circle.svg"
 
 export class AddItemButton extends ViewComponent
 {
@@ -15,13 +15,20 @@ export class AddItemButton extends ViewComponent
             this.__eventEmitter.emit('selected');
         });
 
-        const icon = document.createElement('img');
-        icon.src = plusIcon;
+        const icon = document.createElement('button');
         icon.classList.add("add-item-icon");
 
-        const text = document.createElement('div');
-        text.textContent = "Add item";
+        const text = new DynamicTextArea(document).domObject;
+        text.placeholder = "Add item";
         text.classList.add("add-item-text");
+
+        icon.addEventListener("click", () => {
+            if(text.value && text.value.trim())
+            {
+                this.__eventEmitter.emit("submit", text.value.trim());
+                text.value = "";
+            }
+        });
 
         button.appendChild(icon);
         button.appendChild(text);

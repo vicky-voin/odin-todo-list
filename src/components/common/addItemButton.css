@@ -24,11 +24,16 @@
 {
     width: 100%;
     height: 1rem;
-    color: rgb(153, 153, 153);
 }
 
 .add-item-icon
 {
-    height: 18px;
+    height: 22px;
+    width: 24px;
+    border: none;
+    background-image: url("../../img/plus-circle.svg");
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-color: transparent;
     filter: invert(40%) sepia(86%) saturate(3263%) hue-rotate(187deg) brightness(98%) contrast(102%);
 }

@@ -83,16 +83,20 @@ export class TodoView extends ViewComponent
         stepsList.className = 'steps-list';
 
         todo.steps.forEach(step => {
-            let stepItem = new ToDoButton(step, true, document);
-            stepItem.setChecked(step.isComplete);
-            stepItem.eventEmitter.on('checked', (isChecked) => {
-                step.isComplete = isChecked;
-            });
-            this.#steps.push(stepItem);
-            stepsList.appendChild(stepItem.domObject);
+            let newStep = this.#getStepItem(step, document);
+            
+            this.#steps.push(newStep);
+            stepsList.appendChild(newStep.domObject);
         });
 
         const addStepButton = new AddItemButton(document);
+        addStepButton.eventEmitter.on('submit', (value) => 
+        {
+            let newStep = this.#getStepItem(todo.addStep(value), document);
+            
+            this.#steps.push(newStep);
+            stepsList.insertBefore(newStep.domObject, stepsList.lastElementChild);
+        });
         stepsList.appendChild(addStepButton.domObject);
 
         this.__domObject.appendChild(header);
@@ -100,6 +104,19 @@ export class TodoView extends ViewComponent
         this.__domObject.appendChild(description.domObject);
         this.__domObject.appendChild(stepsTitle);
         this.__domObject.appendChild(stepsList);
+    }
+
+    #getStepItem(step, document)
+    {
+        let stepItem = new ToDoButton(step, true, document);
+        stepItem.setChecked(step.isComplete);
+        stepItem.eventEmitter.on('checked', (isChecked) => {
+            step.isComplete = isChecked;
+        });
+        step.eventEmitter.on("isComplete", (newValue) => {stepItem.setChecked(newValue)});
+        step.eventEmitter.on("title", (newValue) => {stepItem.setText(newValue)});
+
+        return stepItem;
     }
 
     clear()
