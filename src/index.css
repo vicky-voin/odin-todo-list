@@ -15,7 +15,7 @@ body
 {
     display: grid;
     grid-template-rows: 100vh;
-    grid-template-columns: minmax(250px, 20vw) minmax(250px, 30vw) auto;
+    grid-template-columns: var(--sidebar-width) minmax(250px, 30vw) auto;
     background-color: rgb(219, 235, 243);
 }
 

@@ -57,7 +57,7 @@
   --icon-size-sm: 22px;
   --icon-size-md: 24px;
   --icon-size-lg: 35px;
-  --sidebar-width: 250px;
+  --sidebar-width: 200px;
   
   /* Filters */
   --filter-blue-icon: invert(40%) sepia(86%) saturate(3263%) hue-rotate(187deg) brightness(98%) contrast(102%);
