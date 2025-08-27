@@ -12,9 +12,10 @@ export class Library extends Serializable
         
         this.#storageKey = storageKey;
         
-        const loadedData = this.load(storageKey, defaultProject ? [defaultProject] : []);
+        const loadedData = this.load(storageKey, null);
         
-        this.#projects = loadedData.map(projectData => Project.fromJSON(projectData));
+        this.#projects = loadedData? loadedData.map(projectData => Project.fromJSON(projectData)) :
+                        defaultProject ? [defaultProject] : [];
 
         console.log(this.#projects);
     }

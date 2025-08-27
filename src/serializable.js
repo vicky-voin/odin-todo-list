@@ -12,7 +12,6 @@ export class Serializable
     load(key, defaultValue)
     {
         let loadedString = Serializable.storage.get(key);
-        console.log(loadedString);
 
         return loadedString? JSON.parse(loadedString) : defaultValue;
     }
