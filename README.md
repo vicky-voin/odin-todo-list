@@ -2,7 +2,7 @@
 
 A todo list application built with vanilla JavaScript. Organize tasks into projects, set priorities, break down complex tasks into steps, and automatically save everything to local storage.
 
-**➤ Try it out:** 
+**➤ Try it out:** https://vicky-voin.github.io/odin-todo-list/
 
 ![Todo App](readme_img/screenshot-full.png)
 
