@@ -23,13 +23,11 @@ export class ToDo
         this.#eventEmitter = new EventEmitter();
         this.#title = title;
         
-        // Apply optional properties if provided
         this.#description = options.description || '';
         this.#priority = options.priority || Priority.MEDIUM;
         this.#isComplete = options.isComplete || false;
         this.#projectId = options.projectId || '';
         
-        // If steps are provided, add them
         if (options.steps && Array.isArray(options.steps)) {
             this.#steps = options.steps.map(stepName => new ToDo(stepName));
         }
@@ -111,12 +109,45 @@ export class ToDo
     {
         this.#eventEmitter.emit(propertyName, this[propertyName]);
     }
+
+    toJSON() {
+        return {
+            id: this.#id,
+            projectId: this.#projectId,
+            title: this.#title,
+            description: this.#description,
+            priority: this.#priority,
+            steps: this.#steps.map(step => step.toJSON()),
+            isComplete: this.#isComplete
+        };
+    }
+
+    toPlain() {
+        return this.toJSON();
+    }
+
+    static fromJSON(data) {
+        const todo = new ToDo(data.title, {
+            description: data.description,
+            priority: data.priority,
+            isComplete: data.isComplete,
+            projectId: data.projectId
+        });
+        
+        todo.#id = data.id;
+        
+        if (data.steps && Array.isArray(data.steps)) {
+            todo.#steps = data.steps.map(stepData => ToDo.fromJSON(stepData));
+        }
+        
+        return todo;
+    }
 }
 
 function createDefaultTasks()
 {
     return [
-        new ToDo("Do 30 minutes of exercie",
+        new ToDo("Do 30 minutes of exercise",
             {
                 description: "Follow that Youtube video with the cardio workout"
             }

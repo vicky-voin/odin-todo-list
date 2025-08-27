@@ -1,4 +1,5 @@
 var EventEmitter = require("events");
+import { ToDo } from "./todo";
 
 export class Project
 {
@@ -48,6 +49,30 @@ export class Project
     getToDos()
     {
         return this.#toDos;
+    }
+
+    toJSON() {
+        return {
+            id: this.#id,
+            title: this.#title,
+            todos: this.#toDos.map(todo => todo.toJSON())
+        };
+    }
+
+    static fromJSON(data) {
+        const project = new Project(data.title);
+        
+        project.#id = data.id;
+        
+        if (data.todos && Array.isArray(data.todos)) {
+            project.#toDos = data.todos.map(todoData => {
+                const todo = ToDo.fromJSON(todoData);
+                todo.projectId = project.#id;
+                return todo;
+            });
+        }
+        
+        return project;
     }
 }
 

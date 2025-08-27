@@ -12,7 +12,13 @@ createDefaultTasks().forEach(todo => {
     defaultProject.addToDo(todo);
 });
 
-const myLibrary = new Library(defaultProject);
+const libraryStorageKey = "__ToDoApp__library"; 
+const myLibrary = new Library(libraryStorageKey, defaultProject);
+
+window.addEventListener('beforeunload', () => 
+{
+    myLibrary.saveToStorage();
+});
 
 const sidebarRoot = document.querySelector(".sidebar-view-container");
 const sidebarView = new SidebarView(myLibrary, document);
@@ -28,7 +34,7 @@ sidebarView.eventEmitter.on('addNewProject', (projectTitle) =>
 sidebarRoot.appendChild(sidebarView.domObject);
 
 const projectViewRoot = document.querySelector(".project-view-container");
-const projectView = new ProjectView(defaultProject, document);
+const projectView = new ProjectView(myLibrary.getProjects()[0], document);
 projectView.eventEmitter.on('todoSelected', (todo) => 
 {
     todoViewRoot.hidden = false;
