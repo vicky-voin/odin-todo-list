@@ -14,7 +14,7 @@ export class TodoView extends ViewComponent
     #steps = [];
     #currentTodo;
 
-    constructor(todo, document)
+    constructor(document)
     {
         super();
 
@@ -22,9 +22,6 @@ export class TodoView extends ViewComponent
         root.className = 'todo-view';
         
         this.__domObject = root;
-        this.__eventEmitter = new EventEmitter();
-
-        this.show(todo);
     }
 
     show(todo)

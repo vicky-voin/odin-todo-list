@@ -1,72 +1,72 @@
 .todo-view
 {
-    padding: 48px 24px;
+    padding: var(--spacing-xxl) var(--spacing-xl);
 }
 
 .todo-header
 {
-    margin-bottom: 12px;
+    margin-bottom: var(--spacing-lg);
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: var(--spacing-md);
 }
 
 .todo-title
 {
-    font-size: 2rem;
+    font-size: var(--font-size-xxl);
     font-weight: bold;
-    height: 2rem;
+    height: var(--font-size-xxl);
     flex-grow: 1;
 }
 
 .todo-priority
 {
-    margin: 0px 12px;
+    margin: 0px var(--spacing-lg);
 }
 
 .todo-section-title
 {
-    font-size: 0.9rem;
+    font-size: var(--font-size-base);
     letter-spacing: 0.09rem;
-    margin: 24px 0px 12px 0px;
+    margin: var(--spacing-xl) 0px var(--spacing-lg) 0px;
 }
 
 .todo-description
 {
     width: 100%;
-    height: 1rem;
+    height: var(--font-size-md);
 }
 
 .todo-description::placeholder
 {
-    color: grey;
+    color: var(--color-gray);
 }
 
 .steps-list
 {
     display: flex;
     flex-direction: column;
-    margin-top: 12px;
+    margin-top: var(--spacing-lg);
 }
 
 .todo-add-button
 {
-    border-top: 1px solid rgb(223, 223, 223);
-    border-radius: 4px;
+    border-top: var(--border-light);
+    border-radius: var(--border-radius-sm);
 }
 
 .todo-add-button:hover,
 .todo-add-button:focus-within
 {
-    outline: 1px solid rgba(0, 136, 245, 1);
-    box-shadow: 5px 5px 16px 0px rgba(0,0,0,0.23);
+    outline: 1px solid var(--color-primary);
+    box-shadow: var(--shadow-focus);
 }
 
 .todo-add-button:last-of-type
 {
-    border-bottom: 1px solid rgb(223, 223, 223);
+    border-bottom: var(--border-light);
 }
 
-.todo-priority.value-high, .option-high { background-color: #e74c3c;}
-.todo-priority.value-medium, .option-medium { background-color: #f39c12; }
-.todo-priority.value-low, .option-low { background-color: #27ae60; }
+.todo-priority.value-high, .option-high { background-color: var(--color-priority-high);}
+.todo-priority.value-medium, .option-medium { background-color: var(--color-priority-medium); }
+.todo-priority.value-low, .option-low { background-color: var(--color-priority-low); }

@@ -1,6 +1,6 @@
 .project-view
 {
-    padding: 48px 24px;
+    padding: var(--spacing-xxl) var(--spacing-xl);
 }
 
 .project-title
@@ -14,19 +14,19 @@
 {
     display: flex;
     flex-direction: column;
-    margin-top: 12px;
+    margin-top: var(--spacing-lg);
 }
 
 .project-add-button
 {
     width: 100%;
     border: none;
-    border-radius: 4px;
+    border-radius: var(--border-radius-sm);
 }
 
 .project-add-button:hover,
 .project-add-button:focus-within
 {
-    outline: 1px solid rgba(0, 136, 245, 1);
-    box-shadow: 5px 5px 16px 0px rgba(0,0,0,0.23);
+    outline: 1px solid var(--color-primary);
+    box-shadow: var(--shadow-focus);
 }

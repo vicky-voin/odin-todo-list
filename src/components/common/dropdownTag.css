@@ -1,22 +1,22 @@
 .tag-dropdown{
-    color:white;
-    background-color: gray;
-    border-radius: 8px;
-    font-size: 0.8rem;
-    font-weight: 1000;
+    color: var(--color-white);
+    background-color: var(--color-gray);
+    border-radius: var(--border-radius-md);
+    font-size: var(--font-size-xs);
+    font-weight: var(--font-weight-extra-bold);
     text-align: center;
     border: none;
     outline: 0px;
-    padding: 6px;
+    padding: var(--spacing-sm);
     display: flex;
 }
 
 .tag-dropdown:hover
 {
-    box-shadow: 0px 0px 10px 2px rgba(0,0,0,0.2);
+    box-shadow: var(--shadow-sm);
 }
 
 option:checked
 {
-    font-weight: 1000;
+    font-weight: var(--font-weight-extra-bold);
 }

@@ -1,10 +1,10 @@
 .add-item-button
 {
     background-color: transparent;
-    border: 0px;
+    border: var(--border-none);
     display: flex;
-    gap: 12px;
-    padding: 12px;
+    gap: var(--spacing-lg);
+    padding: var(--spacing-lg);
     text-align: left;
     align-items: center;
 }
@@ -12,17 +12,17 @@
 .add-item-text
 {
     width: 100%;
-    height: 1rem;
+    height: var(--font-size-md);
 }
 
 .add-item-icon
 {
-    height: 22px;
-    width: 24px;
+    height: var(--icon-size-sm);
+    width: var(--icon-size-md);
     border: none;
     background-image: url("../../img/plus-circle.svg");
     background-repeat: no-repeat;
     background-size: contain;
     background-color: transparent;
-    filter: invert(40%) sepia(86%) saturate(3263%) hue-rotate(187deg) brightness(98%) contrast(102%);
+    filter: var(--filter-blue-icon);
 }
